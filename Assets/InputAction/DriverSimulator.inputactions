@@ -121,6 +121,51 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchGearPositionAutoGearReverse",
+                    "type": "Button",
+                    "id": "60dba948-fe66-4f54-a92b-b46f78ad80fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchGearPositionAutoGearNeutral",
+                    "type": "Button",
+                    "id": "fc99a018-8209-4385-b742-a374ccc0de37",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchGearPositionAutoGear1",
+                    "type": "Button",
+                    "id": "36dc8228-9f17-4a7f-bb1d-3e4d64590a07",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchGearPositionAutoGear2",
+                    "type": "Button",
+                    "id": "fd6d6f5b-509f-4a26-a7b5-c43bee5717eb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchGearPositionAutoGear3",
+                    "type": "Button",
+                    "id": "de8bff17-5ae6-406e-84ed-2ef817ef9db1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -451,6 +496,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "SwitchGearPositionManualReverse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6d004cb6-4535-4d61-9a30-8e60132f0b6e",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SwitchGearPositionAutoGearReverse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1404bfa7-5f14-4659-8573-b19d2e66eee0",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SwitchGearPositionAutoGearNeutral",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fd09f56b-faea-48e3-80a4-0a754a319686",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SwitchGearPositionAutoGear1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a85f2f1f-2e3c-443d-8736-166043a9aaa9",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SwitchGearPositionAutoGear2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "345540cc-3943-4507-9f22-09f357cd80d8",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SwitchGearPositionAutoGear3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -36,8 +36,8 @@ public enum CarGearPositionAutomatic
 {
     Reverse,
     Neutral,
-    Drive,
     Low,
+    Drive,
     Second,
 }
      
@@ -59,8 +59,8 @@ public class CarController : MonoBehaviour {
     {
         {CarGearPositionAutomatic.Reverse, -100},
         {CarGearPositionAutomatic.Neutral, 0},
-        {CarGearPositionAutomatic.Drive, 300},
         {CarGearPositionAutomatic.Low, 100},
+        {CarGearPositionAutomatic.Drive, 300},
         {CarGearPositionAutomatic.Second, 600}
     };
     
@@ -286,6 +286,76 @@ public class CarController : MonoBehaviour {
 
         carGearPositionManualCurrent = CarGearPositionManual.Reverse;
         curMotorTorque = gearSpeed[carGearPositionManualCurrent];
+        curMotorTorque = MathF.Min(curMotorTorque, maxMotorTorque);
+        
+        UpdateGearInfo();
+    }
+    
+    private void OnSwitchGearPositionAutoGearReverse()
+    {
+        if (carType == CarType.Manual)
+        {
+            return;
+        }
+
+        carGearPositionAutomaticCurrent = CarGearPositionAutomatic.Reverse;
+        curMotorTorque = gearSpeedAutomatic[carGearPositionAutomaticCurrent];
+        curMotorTorque = MathF.Min(curMotorTorque, maxMotorTorque);
+        
+        UpdateGearInfo();
+    }
+    
+    private void OnSwitchGearPositionAutoGearNeutral()
+    {
+        if (carType == CarType.Manual)
+        {
+            return;
+        }
+
+        carGearPositionAutomaticCurrent = CarGearPositionAutomatic.Neutral;
+        curMotorTorque = gearSpeedAutomatic[carGearPositionAutomaticCurrent];
+        curMotorTorque = MathF.Min(curMotorTorque, maxMotorTorque);
+        
+        UpdateGearInfo();
+    }
+    
+    private void OnSwitchGearPositionAutoGear1()
+    {
+        if (carType == CarType.Manual)
+        {
+            return;
+        }
+
+        carGearPositionAutomaticCurrent = CarGearPositionAutomatic.Low;
+        curMotorTorque = gearSpeedAutomatic[carGearPositionAutomaticCurrent];
+        curMotorTorque = MathF.Min(curMotorTorque, maxMotorTorque);
+        
+        UpdateGearInfo();
+    }
+    
+    private void OnSwitchGearPositionAutoGear2()
+    {
+        if (carType == CarType.Manual)
+        {
+            return;
+        }
+
+        carGearPositionAutomaticCurrent = CarGearPositionAutomatic.Drive;
+        curMotorTorque = gearSpeedAutomatic[carGearPositionAutomaticCurrent];
+        curMotorTorque = MathF.Min(curMotorTorque, maxMotorTorque);
+        
+        UpdateGearInfo();
+    }
+    
+    private void OnSwitchGearPositionAutoGear3()
+    {
+        if (carType == CarType.Manual)
+        {
+            return;
+        }
+
+        carGearPositionAutomaticCurrent = CarGearPositionAutomatic.Second;
+        curMotorTorque = gearSpeedAutomatic[carGearPositionAutomaticCurrent];
         curMotorTorque = MathF.Min(curMotorTorque, maxMotorTorque);
         
         UpdateGearInfo();
