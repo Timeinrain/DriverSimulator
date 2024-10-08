@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Heng_CheweiWS
+  m_Name: M_Cefang
   m_Shader: {fileID: -6465566751694194690, guid: cd6354788c5274a4a97dba286c8c8819, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -57,15 +57,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Offset_X: 1.1
-    - _Offset_Y: -0.7
+    - _Offset_X: 1.05
+    - _Offset_Y: -1.1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Rotation: 0
     - _Roughness: 0.251
     - _Till: 0
-    - _Till_X: 2
-    - _Till_Y: 20
+    - _Till_X: 3.2
+    - _Till_Y: 28
     - _World_Scale: 0.1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
