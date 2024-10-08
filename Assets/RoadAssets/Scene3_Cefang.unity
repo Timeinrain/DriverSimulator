@@ -3351,6 +3351,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: RealisticCar02_Static_Prefab (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2783990044699176791, guid: 098cf51f79645d2479c83d9406173036, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.71106964
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783990044699176791, guid: 098cf51f79645d2479c83d9406173036, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.6537528
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783990044699176791, guid: 098cf51f79645d2479c83d9406173036, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.17517252
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783990044699176791, guid: 098cf51f79645d2479c83d9406173036, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.19053043
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783990044699176791, guid: 098cf51f79645d2479c83d9406173036, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -59.652
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783990044699176791, guid: 098cf51f79645d2479c83d9406173036, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -80.448
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783990044699176791, guid: 098cf51f79645d2479c83d9406173036, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 81.737
+      objectReference: {fileID: 0}
     - target: {fileID: 4593073520743220586, guid: 098cf51f79645d2479c83d9406173036, type: 3}
       propertyPath: m_LocalPosition.x
       value: 140.27
