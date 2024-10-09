@@ -6,27 +6,9 @@
             "id": "78ad1b97-470f-40ab-ad57-17ec1af2c5c2",
             "actions": [
                 {
-                    "name": "SwitchTPCamera",
-                    "type": "Button",
-                    "id": "f5023374-206d-44f3-a50a-db9ee93b10e2",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "SwitchCarType",
                     "type": "Button",
                     "id": "68c814cb-db9c-437a-aee1-16c3f0f5dc9f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SwitchGearPositionAuto",
-                    "type": "Button",
-                    "id": "9f0f3648-e6f2-41cd-b613-b87861a65a99",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -184,75 +166,18 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "UICallReadMe",
+                    "type": "Button",
+                    "id": "558bd446-a3b5-4acc-b309-ec6cb45cf1fd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "283a8f13-5bea-49e7-92c4-209eb97c2533",
-                    "path": "<Keyboard>/t",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "SwitchTPCamera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ca6b47d5-9604-4d4d-aaed-5a2aa59612dc",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "SwitchGearPositionAuto",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e1cc0082-c809-4b9a-860f-5e134b435831",
-                    "path": "<Keyboard>/n",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "SwitchGearPositionAuto",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "650dab12-69af-436e-bf31-09b07beb1bb5",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "SwitchGearPositionAuto",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "82929eba-00ba-42ef-b1de-391bd8d08dda",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "SwitchGearPositionAuto",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fb4d028c-b039-4f78-9211-7f953b7c47f3",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "SwitchGearPositionAuto",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "0f1ba034-b013-43cf-9899-cc15f2e6918b",
@@ -333,7 +258,7 @@
                 {
                     "name": "",
                     "id": "6f18f398-1c2e-44b3-9b38-a8a98377b8d7",
-                    "path": "<Keyboard>/n",
+                    "path": "<Keyboard>/backquote",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -366,7 +291,7 @@
                 {
                     "name": "",
                     "id": "1404bfa7-5f14-4659-8573-b19d2e66eee0",
-                    "path": "<Keyboard>/n",
+                    "path": "<Keyboard>/backquote",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -470,6 +395,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "650c3519-6aca-4574-8cee-40e9e8084719",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UICallReadMe",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -5873,6 +5873,7 @@ GameObject:
   - component: {fileID: 680462697588685911}
   - component: {fileID: 3648426671649791810}
   - component: {fileID: 1751057319838424830}
+  - component: {fileID: 1521306853465980433}
   m_Layer: 0
   m_Name: RealisticCar02_HD_Complete
   m_TagString: Untagged
@@ -6076,9 +6077,19 @@ MonoBehaviour:
     steering: 1
   maxMotorTorque: 400
   curMotorTorque: 0
+  brakeMotorTorque: 0
   maxSteeringAngle: 30
   curSteeringAngle: 0
+  CarSpeed: 0
+  horizontalAdjustFactor: 0.5
+  horizontalInputRange: {x: -90, y: 90}
+  handBrakeStatus: 0
+  engineStatus: 1
   carType: 0
+  AcceleratorValue: 0
+  BrakeValue: 0
+  SteeringWheelAngle: 0
+  SteeringWheel: {fileID: 0}
   carGearPositionAutomaticCurrent: 1
   carGearPositionManualCurrent: 1
 --- !u!114 &1751057319838424830
@@ -6111,6 +6122,19 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 890383882897993879}
+--- !u!114 &1521306853465980433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5688879740354966282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4630283b070c040b1c79e790d271ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carController: {fileID: 3648426671649791810}
 --- !u!1 &5713507626660670147
 GameObject:
   m_ObjectHideFlags: 0

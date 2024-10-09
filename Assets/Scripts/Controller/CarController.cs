@@ -99,6 +99,7 @@ public class CarController : MonoBehaviour {
 
     private const float AcceleratorUnitValue = 100.0f;
     private const float BrakeUnitValue = 1000.0f;
+    
     public float AcceleratorValue = 0.0f;
     public float BrakeValue = 0.0f;
 
@@ -109,6 +110,12 @@ public class CarController : MonoBehaviour {
 
     #endregion
 
+    #region UIManager
+
+    public UIManager uiManager;
+
+    #endregion
+
     #region CarGear
 
     public CarGearPositionAutomatic carGearPositionAutomaticCurrent = CarGearPositionAutomatic.Neutral;
@@ -116,6 +123,21 @@ public class CarController : MonoBehaviour {
 
     #endregion
 
+    public void Start()
+    {
+        uiManager = GetComponent<UIManager>();
+        UpdateGearInfo();
+        UpdateUIData();
+    }
+    
+    public void UpdateUIData()
+    {
+        uiManager.UpdateCarTypeText(carType);
+        uiManager.UpdateGearPositionText(carGearPositionAutomaticCurrent, carGearPositionManualCurrent);
+        uiManager.UpdateHandBrakeText(handBrakeStatus);
+        uiManager.UpdateAcceleratorText(AcceleratorValue);
+        uiManager.UpdateBrakeText(BrakeValue);
+    }
 
     // 查找相应的可视车轮
     // 正确应用变换
@@ -161,6 +183,8 @@ public class CarController : MonoBehaviour {
                 curMotorTorque = MathF.Max(currentMinSpeedManual, 0);
             }
         }
+        
+        UpdateUIData();
     }
     
     // 等接入线性控制再直接替换
@@ -173,7 +197,8 @@ public class CarController : MonoBehaviour {
     private void OnHandBrake()
     {
         handBrakeStatus = handBrakeStatus == HandBrakeStatus.On ? HandBrakeStatus.Off : HandBrakeStatus.On;
-        Debug.Log("handBrakeStatus" + handBrakeStatus);
+        
+        UpdateUIData();
     }
     
     private void OnBrake(InputValue value)
@@ -181,7 +206,8 @@ public class CarController : MonoBehaviour {
         var inputValue = value.Get<float>();
         BrakeValue = BrakeUnitValue * inputValue;
         BrakeValue = Mathf.Max(BrakeValue, 0);
-        Debug.Log("BrakeValue" + BrakeValue);
+        
+        UpdateUIData();
     }
     
     private void OnAccelerator(InputValue value)
@@ -189,12 +215,15 @@ public class CarController : MonoBehaviour {
         var inputValue = value.Get<float>();
         AcceleratorValue = AcceleratorUnitValue * inputValue;
         AcceleratorValue = Mathf.Max(AcceleratorValue, 0);
-        Debug.Log("Accelorator = " + AcceleratorValue);
+        
+        UpdateUIData();
     }
     
     private void OnSwitchCarType()
     {
         carType = carType == CarType.Automatic ? CarType.Manual : CarType.Automatic;
+        
+        UpdateUIData();
     }
 
     #region GearPosition
@@ -389,13 +418,6 @@ public class CarController : MonoBehaviour {
         curSteeringAngle = Mathf.Clamp(curSteeringAngle, horizontalInputRange.x, horizontalInputRange.y);
         
         Debug.Log("curSteeringAngle" + curSteeringAngle);
-        
-        // var wheelsSpeeds = new List<float>(4);
-        // wheelsSpeeds[0] = axleInfos[0].leftWheel.rpm;
-        // wheelsSpeeds[1] = axleInfos[0].rightWheel.rpm;
-        // wheelsSpeeds[2] = axleInfos[1].leftWheel.rpm;
-        // wheelsSpeeds[3] = axleInfos[1].rightWheel.rpm;
-        // CarSpeed = Mathf.Max(wheelsSpeeds.ToArray());
         
         // ======== 方向盘表现层 =========
         SteeringWheelAngle = - curSteeringAngle * 6;
