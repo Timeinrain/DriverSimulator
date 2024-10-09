@@ -40,37 +40,74 @@ public enum CarGearPositionAutomatic
     Drive,
     Second,
 }
+
+public enum EngineStatus
+{
+    On,
+    Off,
+    Stalled,
+}
+
+public enum HandBrakeStatus
+{
+    On,
+    Off
+}
      
 public class CarController : MonoBehaviour {
     
     Dictionary<CarGearPositionManual,float> gearSpeed = new Dictionary<CarGearPositionManual, float>()
     {
-        {CarGearPositionManual.Reverse, -100},
+        {CarGearPositionManual.Reverse, -30},
         {CarGearPositionManual.Neutral, 0},
-        {CarGearPositionManual.First, 100},
-        {CarGearPositionManual.Second, 200},
-        {CarGearPositionManual.Third, 300},
-        {CarGearPositionManual.Fourth, 400},
-        {CarGearPositionManual.Fifth, 500},
-        {CarGearPositionManual.Sixth, 600}
+        {CarGearPositionManual.First, 30},
+        {CarGearPositionManual.Second, 60},
+        {CarGearPositionManual.Third, 90},
+        {CarGearPositionManual.Fourth, 120},
+        {CarGearPositionManual.Fifth, 150},
+        {CarGearPositionManual.Sixth, 180}
     };
     
     Dictionary<CarGearPositionAutomatic,float> gearSpeedAutomatic = new Dictionary<CarGearPositionAutomatic, float>()
     {
-        {CarGearPositionAutomatic.Reverse, -100},
+        {CarGearPositionAutomatic.Reverse, -30},
         {CarGearPositionAutomatic.Neutral, 0},
-        {CarGearPositionAutomatic.Low, 100},
-        {CarGearPositionAutomatic.Drive, 300},
-        {CarGearPositionAutomatic.Second, 600}
+        {CarGearPositionAutomatic.Low, 30},
+        {CarGearPositionAutomatic.Drive, 75},
+        {CarGearPositionAutomatic.Second, 120}
     };
     
     public List<AxleInfo> axleInfos; 
     public float maxMotorTorque;
     public float curMotorTorque;
+    public float brakeMotorTorque;
     public float maxSteeringAngle;
     public float curSteeringAngle;
+
+    public float CarSpeed = 0.0f;
+
+    private float horizontalAdjustValue = 0.0f;
+    public float horizontalAdjustFactor = 0.5f;
+    
+    public Vector2 horizontalInputRange = new Vector2(-90, 90);
+
+    public HandBrakeStatus handBrakeStatus = HandBrakeStatus.On;
+    
+    public EngineStatus engineStatus = EngineStatus.Off;
     
     public CarType carType = CarType.Manual;
+
+    private const float AcceleratorUnitValue = 100.0f;
+    private const float BrakeUnitValue = 1000.0f;
+    public float AcceleratorValue = 0.0f;
+    public float BrakeValue = 0.0f;
+
+    #region ViewLevel
+
+    public float SteeringWheelAngle = 0.0f;
+    public GameObject SteeringWheel;
+
+    #endregion
 
     #region CarGear
 
@@ -125,59 +162,42 @@ public class CarController : MonoBehaviour {
             }
         }
     }
-
-    // 现在只是简单地用后退来刹车，真实刹车逻辑应该是减速到0
-    private void OnMove(InputValue value)
+    
+    // 等接入线性控制再直接替换
+    private void OnTurn(InputValue value)
     {
-        var inputVector = value.Get<Vector2>();
-        Debug.Log(inputVector);
-        var currentMinSpeedManual = gearSpeed[carGearPositionManualCurrent];
-        var currentMinSpeedAuto = gearSpeedAutomatic[carGearPositionAutomaticCurrent];
-        if (carType == CarType.Automatic)
-        {
-            if (carGearPositionAutomaticCurrent == CarGearPositionAutomatic.Reverse)
-            {
-                curMotorTorque = - MathF.Max(-gearSpeedAutomatic[CarGearPositionAutomatic.Reverse], inputVector.y * curMotorTorque);
-            }
-            else
-            {
-                if (inputVector.y > 0)
-                {
-                    curMotorTorque = MathF.Max(currentMinSpeedAuto, inputVector.y * maxMotorTorque);
-                }
-                else
-                {
-                    curMotorTorque = inputVector.y * maxMotorTorque;
-                }
-            }
-            curSteeringAngle = inputVector.x * maxSteeringAngle;
-        }
-        else
-        {
-            if (carGearPositionManualCurrent == CarGearPositionManual.Reverse)
-            {
-                curMotorTorque = - MathF.Max(-gearSpeed[CarGearPositionManual.Reverse], inputVector.y * curMotorTorque);
-            }
-            else
-            {
-                if (inputVector.y > 0)
-                {
-                    curMotorTorque = MathF.Max(currentMinSpeedManual, inputVector.y * maxMotorTorque);
-                }
-                else
-                {
-                    curMotorTorque = inputVector.y * maxMotorTorque;
-                }
-            }
-            curSteeringAngle = inputVector.x * maxSteeringAngle;
-        }
-        
+        var inputValue = value.Get<float>();
+        horizontalAdjustValue = inputValue;
     }
-
+    
+    private void OnHandBrake()
+    {
+        handBrakeStatus = handBrakeStatus == HandBrakeStatus.On ? HandBrakeStatus.Off : HandBrakeStatus.On;
+        Debug.Log("handBrakeStatus" + handBrakeStatus);
+    }
+    
+    private void OnBrake(InputValue value)
+    {
+        var inputValue = value.Get<float>();
+        BrakeValue = BrakeUnitValue * inputValue;
+        BrakeValue = Mathf.Max(BrakeValue, 0);
+        Debug.Log("BrakeValue" + BrakeValue);
+    }
+    
+    private void OnAccelerator(InputValue value)
+    {
+        var inputValue = value.Get<float>();
+        AcceleratorValue = AcceleratorUnitValue * inputValue;
+        AcceleratorValue = Mathf.Max(AcceleratorValue, 0);
+        Debug.Log("Accelorator = " + AcceleratorValue);
+    }
+    
     private void OnSwitchCarType()
     {
         carType = carType == CarType.Automatic ? CarType.Manual : CarType.Automatic;
     }
+
+    #region GearPosition
 
     private void OnSwitchGearPositionManualGear1()
     {
@@ -360,11 +380,60 @@ public class CarController : MonoBehaviour {
         
         UpdateGearInfo();
     }
+
+    #endregion
     
     public void FixedUpdate()
     {
+        curSteeringAngle += horizontalAdjustValue * horizontalAdjustFactor;
+        curSteeringAngle = Mathf.Clamp(curSteeringAngle, horizontalInputRange.x, horizontalInputRange.y);
+        
+        Debug.Log("curSteeringAngle" + curSteeringAngle);
+        
+        // var wheelsSpeeds = new List<float>(4);
+        // wheelsSpeeds[0] = axleInfos[0].leftWheel.rpm;
+        // wheelsSpeeds[1] = axleInfos[0].rightWheel.rpm;
+        // wheelsSpeeds[2] = axleInfos[1].leftWheel.rpm;
+        // wheelsSpeeds[3] = axleInfos[1].rightWheel.rpm;
+        // CarSpeed = Mathf.Max(wheelsSpeeds.ToArray());
+        
+        // ======== 方向盘表现层 =========
+        SteeringWheelAngle = - curSteeringAngle * 6;
+        var steeringWheelRotation = SteeringWheel.transform.rotation;
+        var targetRotation = Quaternion.Euler(steeringWheelRotation.eulerAngles.x, steeringWheelRotation.eulerAngles.y,
+            SteeringWheelAngle);
+        SteeringWheel.transform.rotation = targetRotation;
+        // ==============================
+        
         // 等接入轮盘和油门 再更换为 curxxxx
-        float motor = curMotorTorque;
+        if(handBrakeStatus == HandBrakeStatus.On)
+        {
+            foreach (AxleInfo axleInfo in axleInfos) {
+                axleInfo.leftWheel.brakeTorque = 100000;
+                axleInfo.rightWheel.brakeTorque = 100000;
+            }
+        }
+        else
+        {
+            foreach (AxleInfo axleInfo in axleInfos) {
+                axleInfo.leftWheel.brakeTorque = 0;
+                axleInfo.rightWheel.brakeTorque = 0;
+            }
+        }
+
+        // 油门的倒挡处理
+        if(carGearPositionAutomaticCurrent == CarGearPositionAutomatic.Reverse || carGearPositionManualCurrent == CarGearPositionManual.Reverse)
+        {
+            AcceleratorValue = - AcceleratorValue;
+        }
+        
+        float motor = curMotorTorque + AcceleratorValue;
+        motor = Mathf.Clamp(motor, -maxMotorTorque, maxMotorTorque);
+        if(BrakeValue > 0)
+        {
+            motor = 0;
+        }
+        Debug.Log("motor = " + motor + "AcceleratorValue = " + AcceleratorValue + "BrakeValue = " + BrakeValue + "curMotorTorque = " + curMotorTorque);
         float steering = curSteeringAngle;
      
         foreach (AxleInfo axleInfo in axleInfos) {
@@ -376,6 +445,13 @@ public class CarController : MonoBehaviour {
                 axleInfo.leftWheel.motorTorque = motor;
                 axleInfo.rightWheel.motorTorque = motor;
             }
+            
+            if(BrakeValue > 0)
+            {
+                axleInfo.leftWheel.brakeTorque = BrakeValue;
+                axleInfo.rightWheel.brakeTorque = BrakeValue;
+            }
+            
             ApplyLocalPositionToVisuals(axleInfo.leftWheel);
             ApplyLocalPositionToVisuals(axleInfo.rightWheel);
         }
