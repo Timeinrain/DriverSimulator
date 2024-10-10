@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Stop_Shu
-  m_Shader: {fileID: -6465566751694194690, guid: cd6354788c5274a4a97dba286c8c8819, type: 3}
+  m_Name: M_5RoadSide
+  m_Shader: {fileID: -6465566751694194690, guid: 8fe3f1b4a776c9743a965e4fead903c6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,23 +24,23 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AO_Map:
-        m_Texture: {fileID: 2800000, guid: e930b1c15e3e0d04b8b0e7374de707ef, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Basecolor:
-        m_Texture: {fileID: 2800000, guid: e930b1c15e3e0d04b8b0e7374de707ef, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1a0dfa18a92329243806acdcd7b1e98b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
-        m_Texture: {fileID: 2800000, guid: cc2129cff4c275a4c8c6ba218b3a9fbe, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: 405eb8ebd447ce042990280c3c8f0edb, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3115862e9d684da44bbcb90a3bf6f96e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Roughness_Map:
-        m_Texture: {fileID: 2800000, guid: 77752e16a944c0448b89a1f7d2515783, type: 3}
+        m_Texture: {fileID: 2800000, guid: fd95756ab0a97854aa01630619c49cf6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -57,20 +57,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Offset_X: -0.17
-    - _Offset_Y: -0.245
+    - _Clip: 0.5
+    - _Offset_X: 0
+    - _Offset_Y: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Rotation: 270
-    - _Roughness: 0.251
-    - _Till: 0
-    - _Till_X: 5
-    - _Till_Y: 5
-    - _World_Scale: 0.1
+    - _Rotation: 0
+    - _Roughness: 0.698
+    - _Till_X: 60
+    - _Till_Y: 1
+    - _World_Scale: 0
     m_Colors:
-    - _Color: {r: 0.9029649, g: 0.9029649, b: 0.9029649, a: 0}
+    - _Color: {r: 0.735849, g: 0.6802933, b: 0.6019681, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &1771142943402947795
+--- !u!114 &4968554999534264001
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
