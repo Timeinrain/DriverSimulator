@@ -64,7 +64,7 @@ Material:
     - _Rotation: 90
     - _Roughness: 0.251
     - _Till: 0
-    - _Till_X: 4.5
+    - _Till_X: 5.16
     - _Till_Y: 30
     - _World_Scale: 0.1
     m_Colors:

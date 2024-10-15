@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Stop_Shu
+  m_Name: M_Stop_Banpo
   m_Shader: {fileID: -6465566751694194690, guid: cd6354788c5274a4a97dba286c8c8819, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -57,11 +57,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Offset_X: -0.17
-    - _Offset_Y: -0.245
+    - _Offset_X: -0.41
+    - _Offset_Y: -0.23
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Rotation: 270
+    - _Rotation: 90
     - _Roughness: 0.251
     - _Till: 0
     - _Till_X: 5
