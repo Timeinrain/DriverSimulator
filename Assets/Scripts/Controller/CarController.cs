@@ -45,7 +45,7 @@ public enum EngineStatus
 {
     On,
     Off,
-    Stalled,
+    Stalled,//熄火
 }
 
 public enum HandBrakeStatus
@@ -53,28 +53,35 @@ public enum HandBrakeStatus
     On,
     Off
 }
+
+public enum ClutchStatus
+{
+    On,
+    HalfOn,
+    Off
+}
      
 public class CarController : MonoBehaviour {
     
     Dictionary<CarGearPositionManual,float> gearSpeed = new Dictionary<CarGearPositionManual, float>()
     {
-        {CarGearPositionManual.Reverse, -30},
+        {CarGearPositionManual.Reverse, -10},
         {CarGearPositionManual.Neutral, 0},
-        {CarGearPositionManual.First, 30},
-        {CarGearPositionManual.Second, 60},
-        {CarGearPositionManual.Third, 90},
-        {CarGearPositionManual.Fourth, 120},
-        {CarGearPositionManual.Fifth, 150},
-        {CarGearPositionManual.Sixth, 180}
+        {CarGearPositionManual.First, 10},
+        {CarGearPositionManual.Second, 20},
+        {CarGearPositionManual.Third, 30},
+        {CarGearPositionManual.Fourth, 40},
+        {CarGearPositionManual.Fifth, 50},
+        {CarGearPositionManual.Sixth, 60}
     };
     
     Dictionary<CarGearPositionAutomatic,float> gearSpeedAutomatic = new Dictionary<CarGearPositionAutomatic, float>()
     {
-        {CarGearPositionAutomatic.Reverse, -30},
+        {CarGearPositionAutomatic.Reverse, -10},
         {CarGearPositionAutomatic.Neutral, 0},
-        {CarGearPositionAutomatic.Low, 30},
-        {CarGearPositionAutomatic.Drive, 75},
-        {CarGearPositionAutomatic.Second, 120}
+        {CarGearPositionAutomatic.Low, 10},
+        {CarGearPositionAutomatic.Drive, 30},
+        {CarGearPositionAutomatic.Second, 50}
     };
     
     public List<AxleInfo> axleInfos; 
@@ -96,6 +103,12 @@ public class CarController : MonoBehaviour {
     public EngineStatus engineStatus = EngineStatus.Off;
     
     public CarType carType = CarType.Manual;
+
+    //初始状态离合抬起
+    public ClutchStatus clutchStatus = ClutchStatus.On;
+    
+    // 0- on 1 halfOn 2 off
+    private int clutchValue = 2;
 
     private const float AcceleratorUnitValue = 100.0f;
     private const float BrakeUnitValue = 1000.0f;
@@ -137,6 +150,30 @@ public class CarController : MonoBehaviour {
         uiManager.UpdateHandBrakeText(handBrakeStatus);
         uiManager.UpdateAcceleratorText(AcceleratorValue);
         uiManager.UpdateBrakeText(BrakeValue);
+        uiManager.UpdateClutchText(clutchStatus);
+        uiManager.UpdateEngineStatus(engineStatus);
+    }
+
+    public bool CanSwitchGearCheck()
+    {
+        if(clutchStatus == ClutchStatus.Off)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public void DealSwitchGearFailed()
+    {
+        Debug.Log("熄火了！");
+        engineStatus = EngineStatus.Stalled;
+        UpdateUIData();
+        //熄火
+    }
+
+    public void SwitchEngineState(EngineStatus engineStatus)
+    {
+        this.engineStatus = engineStatus;
     }
 
     // 查找相应的可视车轮
@@ -194,6 +231,24 @@ public class CarController : MonoBehaviour {
         horizontalAdjustValue = inputValue;
     }
     
+    private void OnEngine()
+    {
+        if (engineStatus == EngineStatus.Off)
+        {
+            engineStatus = EngineStatus.On;
+        }
+        else if (engineStatus == EngineStatus.Stalled)
+        {
+            engineStatus = EngineStatus.Off;
+        }
+        else if (engineStatus == EngineStatus.On)
+        {
+            engineStatus = EngineStatus.Off;
+        }
+        
+        UpdateUIData();
+    }
+    
     private void OnHandBrake()
     {
         handBrakeStatus = handBrakeStatus == HandBrakeStatus.On ? HandBrakeStatus.Off : HandBrakeStatus.On;
@@ -226,12 +281,40 @@ public class CarController : MonoBehaviour {
         UpdateUIData();
     }
 
+    private void OnClutch(InputValue value)
+    {
+        var inputValue = value.Get<float>();
+        Debug.Log("Clutch" + inputValue);
+        clutchValue += (int) inputValue;
+        clutchValue = Mathf.Clamp(clutchValue, 0, 2);
+        switch (clutchValue)
+        {
+            case 0:
+                clutchStatus = ClutchStatus.Off;
+                break;
+            case 1:
+                clutchStatus = ClutchStatus.HalfOn;
+                break;
+            case 2:
+                clutchStatus = ClutchStatus.On;
+                break;
+        }
+        UpdateUIData();
+    }
+
     #region GearPosition
 
     private void OnSwitchGearPositionManualGear1()
     {
         if (carType == CarType.Automatic)
         {
+            return;
+        }
+
+        if (!CanSwitchGearCheck())
+        {
+            Debug.Log("Can't switch gear now" + "CurrentGearPosition" + carGearPositionManualCurrent + "TargetGearPosition" + CarGearPositionManual.First);
+            DealSwitchGearFailed();
             return;
         }
 
@@ -248,6 +331,13 @@ public class CarController : MonoBehaviour {
         {
             return;
         }
+        
+        if (!CanSwitchGearCheck())
+        {
+            Debug.Log("Can't switch gear now" + "CurrentGearPosition" + carGearPositionManualCurrent + "TargetGearPosition" + CarGearPositionManual.First);
+            DealSwitchGearFailed();
+            return;
+        }
 
         carGearPositionManualCurrent = CarGearPositionManual.Second;
         curMotorTorque = gearSpeed[carGearPositionManualCurrent];
@@ -260,6 +350,13 @@ public class CarController : MonoBehaviour {
     {
         if (carType == CarType.Automatic)
         {
+            return;
+        }
+        
+        if (!CanSwitchGearCheck())
+        {
+            Debug.Log("Can't switch gear now" + "CurrentGearPosition" + carGearPositionManualCurrent + "TargetGearPosition" + CarGearPositionManual.First);
+            DealSwitchGearFailed();
             return;
         }
 
@@ -276,6 +373,13 @@ public class CarController : MonoBehaviour {
         {
             return;
         }
+        
+        if (!CanSwitchGearCheck())
+        {
+            Debug.Log("Can't switch gear now" + "CurrentGearPosition" + carGearPositionManualCurrent + "TargetGearPosition" + CarGearPositionManual.First);
+            DealSwitchGearFailed();
+            return;
+        }
 
         carGearPositionManualCurrent = CarGearPositionManual.Fourth;
         curMotorTorque = gearSpeed[carGearPositionManualCurrent];
@@ -288,6 +392,13 @@ public class CarController : MonoBehaviour {
     {
         if (carType == CarType.Automatic)
         {
+            return;
+        }
+        
+        if (!CanSwitchGearCheck())
+        {
+            Debug.Log("Can't switch gear now" + "CurrentGearPosition" + carGearPositionManualCurrent + "TargetGearPosition" + CarGearPositionManual.First);
+            DealSwitchGearFailed();
             return;
         }
 
@@ -304,6 +415,13 @@ public class CarController : MonoBehaviour {
         {
             return;
         }
+        
+        if (!CanSwitchGearCheck())
+        {
+            Debug.Log("Can't switch gear now" + "CurrentGearPosition" + carGearPositionManualCurrent + "TargetGearPosition" + CarGearPositionManual.First);
+            DealSwitchGearFailed();
+            return;
+        }
 
         carGearPositionManualCurrent = CarGearPositionManual.Sixth;
         curMotorTorque = gearSpeed[carGearPositionManualCurrent];
@@ -318,6 +436,13 @@ public class CarController : MonoBehaviour {
         {
             return;
         }
+        
+        if (!CanSwitchGearCheck())
+        {
+            Debug.Log("Can't switch gear now" + "CurrentGearPosition" + carGearPositionManualCurrent + "TargetGearPosition" + CarGearPositionManual.First);
+            DealSwitchGearFailed();
+            return;
+        }
 
         carGearPositionManualCurrent = CarGearPositionManual.Neutral;
         curMotorTorque = gearSpeed[carGearPositionManualCurrent];
@@ -330,6 +455,13 @@ public class CarController : MonoBehaviour {
     {
         if (carType == CarType.Automatic)
         {
+            return;
+        }
+        
+        if (!CanSwitchGearCheck())
+        {
+            Debug.Log("Can't switch gear now" + "CurrentGearPosition" + carGearPositionManualCurrent + "TargetGearPosition" + CarGearPositionManual.First);
+            DealSwitchGearFailed();
             return;
         }
 
@@ -414,10 +546,13 @@ public class CarController : MonoBehaviour {
     
     public void FixedUpdate()
     {
+
+        // ==============================
+        
         curSteeringAngle += horizontalAdjustValue * horizontalAdjustFactor;
         curSteeringAngle = Mathf.Clamp(curSteeringAngle, horizontalInputRange.x, horizontalInputRange.y);
         
-        Debug.Log("curSteeringAngle" + curSteeringAngle);
+        //Debug.Log("curSteeringAngle" + curSteeringAngle);
         
         // ======== 方向盘表现层 =========
         SteeringWheelAngle = - curSteeringAngle * 6;
@@ -455,9 +590,24 @@ public class CarController : MonoBehaviour {
         {
             motor = 0;
         }
-        Debug.Log("motor = " + motor + "AcceleratorValue = " + AcceleratorValue + "BrakeValue = " + BrakeValue + "curMotorTorque = " + curMotorTorque);
+        //Debug.Log("motor = " + motor + "AcceleratorValue = " + AcceleratorValue + "BrakeValue = " + BrakeValue + "curMotorTorque = " + curMotorTorque);
         float steering = curSteeringAngle;
      
+        // ======== 引擎状态检测 =========
+        if(engineStatus == EngineStatus.Off || engineStatus == EngineStatus.Stalled)
+        {
+            motor = 0;
+        }
+        
+        // ======== 离合状态检测 =========
+        //离合处于踩下状态
+        if(clutchStatus == ClutchStatus.Off)
+        {
+            motor = 0;
+        }
+        
+        // ==============================
+        
         foreach (AxleInfo axleInfo in axleInfos) {
             if (axleInfo.steering) {
                 axleInfo.leftWheel.steerAngle = steering;
