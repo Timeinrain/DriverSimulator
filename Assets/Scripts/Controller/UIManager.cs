@@ -24,6 +24,10 @@ public class UIManager : MonoBehaviour
     
     public GameObject BrakeText;
     
+    public GameObject ClutchText;
+
+    public GameObject EngineText;
+    
     private void OnUICallReadMe()
     {
         isReadMeOpen = !isReadMeOpen;
@@ -61,5 +65,36 @@ public class UIManager : MonoBehaviour
     public void UpdateBrakeText(float brake)
     {
         BrakeText.GetComponent<TMP_Text>().text = "刹车：" + (brake != 0);
+    }
+    
+    public void UpdateClutchText(ClutchStatus clutch)
+    {
+        string[] clutchStatus = {"On","HalfOn" , "OFF"};
+        switch (clutch)
+        {
+            case ClutchStatus.On:
+                ClutchText.GetComponent<TMP_Text>().text = "离合：" + clutchStatus[0];
+                break;
+            case ClutchStatus.HalfOn:
+                ClutchText.GetComponent<TMP_Text>().text = "离合：" + clutchStatus[1];
+                break;
+            case ClutchStatus.Off:
+                ClutchText.GetComponent<TMP_Text>().text = "离合：" + clutchStatus[2];
+                break;
+        }
+    }
+    
+    public void UpdateEngineStatus(EngineStatus engineStatus)
+    {
+        string[] engineStatusString = {"ON","OFF","STALLED"};
+        if (engineStatus == EngineStatus.Stalled)
+        {
+            EngineText.GetComponent<TMP_Text>().color = Color.red;
+        }
+        else
+        {
+            EngineText.GetComponent<TMP_Text>().color = Color.white;
+        }
+        EngineText.GetComponent<TMP_Text>().text = "引擎：" + engineStatusString[(int)engineStatus];
     }
 }
