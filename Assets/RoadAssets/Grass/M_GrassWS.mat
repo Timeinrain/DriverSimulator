@@ -63,12 +63,13 @@ Material:
     - _QueueOffset: 0
     - _Rotation: 90
     - _Roughness: 0.251
+    - _Smoothness: 0
     - _Till: 0
     - _Till_X: 5
     - _Till_Y: 5
     - _World_Scale: 0.1
     m_Colors:
-    - _Color: {r: 0.7177399, g: 0.7520215, b: 0.69627863, a: 0}
+    - _Color: {r: 0.91051084, g: 0.9245283, b: 0.9027234, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1771142943402947795
 MonoBehaviour:

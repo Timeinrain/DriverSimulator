@@ -64,7 +64,7 @@ Material:
     - _QueueOffset: 0
     - _Rotation: 0
     - _Roughness: 0.5
-    - _Smoothness: 1
+    - _Smoothness: 0
     - _Till: 0
     - _Till_X: 24
     - _Till_Y: 0.8

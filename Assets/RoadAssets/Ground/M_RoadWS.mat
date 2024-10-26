@@ -57,12 +57,12 @@ Material:
     - _Offset_Y: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Rotation: 90
+    - _Rotation: 0
     - _Roughness: 0.251
     - _Smoothness: 0
     - _Till: 0
-    - _Till_X: 20
-    - _Till_Y: 20
+    - _Till_X: 5
+    - _Till_Y: 5
     - _World_Scale: 0.1
     m_Colors:
     - _Color: {r: 0.48247975, g: 0.48247975, b: 0.48247975, a: 0}
